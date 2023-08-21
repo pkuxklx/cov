@@ -12,23 +12,23 @@ When our auxiliary information identifies the location of “significant” elem
 \end{equation*}
 \(q\) plays an important role. Suppose \(q = 0\), the number of non-zero elements needs to be bounded. On the other hand, when \(q \to 1\), the large elements of \(\Sigma_{\cdot}\) will dominate, and thus the sum of large elements needs to be bounded. We consider an extension to their uniformity class.  We first define the Location Indicator Matrix
 \begin{equation}
-    L = [L_{ij}]_{N\times N} = [ I(\abs{\sigma_{ij}} > l)]_{N\times N}
+    L = [L_{ij}]_{N\times N} = [ I(\abs{r_{ij}} > l)]_{N\times N}
     \label{L aux_set}
 \end{equation}
-For $s\in \{0, 1\}$, $L_{ij}^s = I(L_{ij}=s)$. Thus $L^1$ indicates the location of large elements in the covariance matrix, and $L^0$ indicates the location of small elements (not necessarily zero) in the covariance matrix. It is obvious that $L^1=L$ and $L^0=J_{N,N}-L^1$, where $J_{N,N}$ is an unit matrix. We use auxiliary information to estimate $L$ and thus $L^s$ for $s\in \{0, 1\}$. We then consider the following uniformity class:
+For $s\in \{0, 1\}$, $L_{ij}^s = I(L_{ij}=s)$. Thus $L^1$ indicates the location of large elements in the correlation matrix, and $L^0$ indicates the location of small elements (not necessarily zero) in the correlation matrix. It is obvious that $L^1=L$ and $L^0=J_{N,N}-L^1$, where $J_{N,N}$ is an unit matrix. We use auxiliary information to estimate $L$ and thus $L^s$ for $s\in \{0, 1\}$. We then consider the following uniformity class:
 \begin{align*}
-    \mathcal{U}_1 (q, c_{0}, c_{1}, M, L) = \Bqty{\Sigma : \sigma_{ii} \leq M, \sum_{j} L_{ij}^{1} \leq c_{1}, \sum_{j} L_{ij}^{0}\abs{\sigma_{ij}}^{q} \leq c_{0} \mbox{ for all } i},
+    \mathcal{U}_1 (q, c_{0}, c_{1}, M, L) = \Bqty{\Sigma = DRD : \sigma_{ii} \leq M, \sum_{j} L_{ij}^{1} \leq c_{1}, \sum_{j} L_{ij}^{0}\abs{r_{ij}}^{q} \leq c_{0}, \mbox{ for all } i},
 \end{align*}
 where we separately state the conditions for large elements ($(i,j)$ pairs such that $L_{ij}^{1}=1$) and small elements ($(i,j)$ pairs such that $L_{ij}^{0}=1$). Essentially, this uniformity class controls the number of large elements and the growth rate of the remaining small elements. Compared with the uniformity class of covariance matrices considered in \cite{bickel2008CovarianceRegularization}, we extend the class of covariance matrices that satisfy the thresholding condition. 
 Consider a covariance matrix \(\Sigma\) that contains a small number of relatively large elements and a large number of small elements; such a covariance matrix does not satisfy the sparsity assumption from \cite{bickel2008CovarianceRegularization} while it still satisfies our sparsity condition. Thus our method can deal with more scenarios.
 
 Of course, a prior we don't know is the location of the large elements. Suppose we have observations from the auxiliary dataset that allow us to form an estimator $\hat{L}$ for $L$, independent of the sample \(X\). Here we define the Network Guided Thresholding Estimator to be 
 \begin{align*}
-    T_{L,\lambda}(\hat{\Sigma}) &= \bqty{s_{L, \lambda } (\hat{\sigma}_{ij})}_{N\times N}\\
-    s_{L,\lambda} \pqty{\sigma_{ij}} &= 
+    T_{L,\lambda}(\hat{\Sigma}) &= \bqty{s_{L, \lambda } (\hat{\sigma}_{ij} / \sqrt{\hat \sigma_{ii} \hat \sigma_{jj} } )}_{N\times N}\\
+    s_{L,\lambda} \pqty{t_{ij}} &= 
     \begin{cases}
-        \sigma_{ij} &\qq{if} i = j \qq{or} L_{ij} = 1\\ 
-        s_{\lambda}(\sigma_{ij}) &\qq{otherwise} 
+        t_{ij} &\qq{if} i = j \qq{or} L_{ij} = 1\\ 
+        s_{\lambda}(t_{ij}) &\qq{otherwise} 
     \end{cases}
     \label{network thresholding estimator}
 \end{align*}

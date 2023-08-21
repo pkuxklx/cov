@@ -26,6 +26,11 @@ We make the following assumptions:
     where $f(T, k)$ uniformly converge to $0$ for $k \in \{1, \dots, N\}$ when $T \to \infty$ and $\frac{\log N}{T} \to 0$.
     \label{asmp:framework2}
 \end{assu}
+
+\begin{assu}
+    All the assumptions in the section 2 and 3 of \cite{fanHighDimensionalCovarianceMatrix2011} hold. 
+\end{assu}
+
 \vspace{5mm}
 Remarks: 
 \begin{enumerate}
@@ -35,6 +40,28 @@ Remarks:
     
     \item The relative importance indicator matrix $C$ matrix is assumed to be estimated using auxiliary data sets over the same time period of length $T$ as $\{\boldsymbol{X}_{t})\}_{t=1}^T$. Assumption \autoref{asmp:framework2} requires that there exists a positive proportion $\eta \in (0, 1]$ such that the $\lceil \eta k \rceil$-biggest elements need to be identified using the auxiliary information as $T$ goes large for any integer $k$. This assumption can be justified in a number of settings. For example, if $\hat{C}_{ij}(t)$ is a Poisson process with parameter $c_{ij}$, then $\mathbf{E} [\hat{C}_{ij}(t)] = c_{ij}t$. By the law of large numbers, the order within $C$ can be recovered from $\hat C$ for sufficiently large $T$.
 \end{enumerate}
+
+\subsection{Asymptotic results (with factor)}
+Notation: 
+
+the Network Guided Thresholding Estimator of residuals, $\hat \Sigma_{u,\hat L}^T$.
+
+\begin{thm}
+    The counterpart of \cite{fanHighDimensionalCovarianceMatrix2011}'s Theorem 2.1 in our paper:
+
+Suppose $\gamma < 1$ and $(\log p)^{6/\gamma - 1} = o(T)$. Then under assumption 2.1 and 2.2 in \cite{fanHighDimensionalCovarianceMatrix2011}, and assumption 3 in our paper, there exists positeve $C_1, C_2$, s.t. with $\lambda = C_1 (\sqrt{\frac{\log p}{T}} + a_T)$, 
+$$ P( \| \hat \Sigma_{u,\hat L}^T - \Sigma_u \| < C_2( c_0 b_T^{1-q} + c_1 b_T ) ) > 1 - O(1/p^2 + k_1 (p,T)) $$
+Also, if $c_0 b_T^{1-q} + c_1 b_T = o(1)$, then with probability at least $1 - O(1/p^2 + k_1 (p,T))$, $$\lambda_{\min} (\hat \Sigma_{u,\hat L}^T) > 0.5 \lambda_{\min} (\Sigma_u)$$ and $$\| (\hat \Sigma_{u,\hat L}^T)^{-1} - \Sigma_u^{-1} \| < C_2 (c_0 b_T^{1-q} + c_1 b_T) $$.
+\end{thm}
+
+ Further results in the section 3 of \cite{fanHighDimensionalCovarianceMatrix2011} can be easily modified to get our new results.
+
+the Network Guided Banding Estimator, $\hat \Sigma_{u,\hat C}^T$
+\begin{thm}
+    Suppose $\gamma < 1$ and $(\log p)^{6/\gamma - 1} = o(T)$. Then under assumption 2.1 and 2.2 in \cite{fanHighDimensionalCovarianceMatrix2011}, and assumption 4 in our paper, there exists positeve $C_1, C_2$, s.t. a positive integer $k = \lfloor C_1 c_0(N)^\frac{1}{\alpha+1}  ( \sqrt{\frac{\log N}{T}} + a_T )^\frac{-1}{(\alpha+1)} \rfloor$, 
+$$ P( \| \hat \Sigma_{u,\hat C}^T - \Sigma_u \| < C_2( c_0(N)^\frac{1}{\alpha+1}  ( \sqrt{\frac{\log N}{T}} + a_T )^\frac{\alpha}{(\alpha+1)} ) ) > 1 - O(1/p^2 + k_1 (p,T)) $$
+Also, if $c_0(N)^\frac{1}{\alpha+1}  ( \sqrt{\frac{\log N}{T}} + a_T )^\frac{\alpha}{(\alpha+1)} = o(1)$, then with probability at least $1 - O(1/p^2 + k_1 (p,T))$, $$\lambda_{\min} (\hat \Sigma_{u,\hat L}^T) > 0.5 \lambda_{\min} (\Sigma_u)$$ and $$\| (\hat \Sigma_{u,\hat L}^T)^{-1} - \Sigma_u^{-1} \| < C_2 (c_0 b_T^{1-q} + c_1 b_T) $$.
+\end{thm}
 
 \subsection{Asymptotic results}
 \begin{thm}

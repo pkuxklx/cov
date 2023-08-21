@@ -1,0 +1,45 @@
+$\| \hat R^T_u - R_u \|$ and $\| \hat \Sigma^T_u - \Sigma_u \|$ are of the same order, since $\sigma_{ii}$ is bounded.
+
+\section{NG thresholding}
+\begin{equation}
+    \begin{split}
+        \| \hat R^T_u - R_u \| \\
+        &= \sum_{j=1}^p | \hat r_{ij} I(|\hat r_{ij}| > \lambda \or L_{ij}=1 ) - r_{ij}|    (? \hat L_{ij} ? )\\
+        &< \sum_{j,L_{ij}=0} |\hat r_{ij} - r_{ij}| I(|\hat r_{ij}| > \lambda) 
+        + \sum_{j, L_{ij}=0} |r_{ij}| I(|\hat r_{ij}| < \lambda)
+        + \sum_{j, L_{ij}=1} |\hat r_{ij} - r_{ij}|
+    \end{split}
+\end{equation}
+
+Under event $A_1 = \{ \max_{i,j} |\hat r_{ij} - r_{ij}| < C_1 (\sqrt{\frac{\log p}{T}} + a_T):= b_T \}$, we have
+(hint: Take $\lambda = C' (...)$, let $C' > ...$ such that $\lambda > 2b_T$)   
+(note: $0<q<1$)
+\begin{equation}
+    \begin{split}
+        \| \hat R^T_u - R_u \| \\
+        <& \sum_{j,L_{ij}=0} |\hat r_{ij} - r_{ij}| I(|r_{ij}| > \lambda - b_T)     
+        + \sum_{j, L_{ij}=0} |r_{ij}| I(|r_{ij}| < \lambda + b_T)
+        + c_1 b_T \\
+        <& b_T \sum_{j, L_{ij}=0} \frac{|r_{ij}|^q}{(\lambda - b_T)^q} + \sum_{j, L_{ij}=0} |r_{ij}| (\frac{|r_{ij}|}{\lambda + b_T})^{q-1} + c_1 b_T \\
+        <& c_0 [ b_T (\lambda - b_T)^{-q} + (\lambda + b_T)^{1-q} ] + c_1 b_T
+    \end{split}
+\end{equation}
+
+consider (1): $\lambda - b_T = o(b_T)$
+(2): not (1), like $\lambda \sim 2 b_T$, result: $c_0 b_T^{1-q} + c_1 b_T$
+
+\section{result}
+The counterpart of \cite{fanHighDimensionalCovarianceMatrix2011}'s Theorem 2.1 in our paper:
+
+Suppose $\gamma < 1$ and $(\log p)^{6/\gamma - 1} = o(T)$. Then under assumption 2.1 and 2.2 in \cite{fanHighDimensionalCovarianceMatrix2011}, and assumption 3 in our paper, there exists positeve $C_1, C_2$, s.t. with $\lambda = C_1 (\sqrt{\frac{\log p}{T}} + a_T)$, 
+$$ P( \| \hat \Sigma_{u,\hat L}^T - \Sigma_u \| < C_2( c_0 b_T^{1-q} + c_1 b_T ) ) > 1 - O(1/p^2 + k_1 (p,T)) $$
+Also, if $c_0 b_T^{1-q} + c_1 b_T = o(1)$, then with probability at least $1 - O(1/p^2 + k_1 (p,T))$, $$\lambda_\min (\hat \Sigma_{u,\hat L}^T) > 0.5 \lambda_\min (\Sigma_u)$$ and $$\| (\hat \Sigma_{u,\hat L}^T)^{-1} - \Sigma_u^{-1} \| < C_2 (c_0 b_T^{1-q} + c_1 b_T) $$.
+
+\section{NG banding}
+Under event $A_1$, 
+
+\begin{equation}
+    \begin{split}
+        \| \hat R_{..} - R_u \| = 
+    \end{split}
+\end{equation}
