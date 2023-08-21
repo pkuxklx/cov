@@ -1,0 +1,81 @@
+Suppose we have independent observations $\boldsymbol{X}_{t}=(X_{1t},\dots,X_{Nt})^{\intercal}$, $t=1,\dots,T$ of a $N-$dimensional random vector $\boldsymbol{X}$ with mean $E(\boldsymbol{X})=\boldsymbol{\mu}$ and variance $E((\boldsymbol{X}-\boldsymbol{\mu})(\boldsymbol{X}-\boldsymbol{\mu})^{\intercal})={\Sigma}$. The sample covariance estimator is given as follows:
+\begin{equation}
+\hat{\Sigma}=\frac{1}{T}(\boldsymbol{X}_{t}-\bar{\boldsymbol{X}})(\boldsymbol{X}_{t}-\bar{\boldsymbol{X}})^{\intercal}=[\hat{\sigma}_{ij}]_{N\times N},
+\end{equation}
+where $\bar{\boldsymbol{X}}=\frac{1}{T}\sum_{t=1}^T\boldsymbol{X}_{t}$. As mentioned in the introduction section, the sample covariance matrix behaves poorly when $N$ is large. Below we propose two theoretical frameworks for augmenting large covariance matrix estimation with auxiliary network information. One may choose the suitable framework depending on the features of
+the auxiliary network information at hand.
+
+\subsection{Network Guided Thresholding}{\label{framework1}}
+When our auxiliary information identifies the location of “significant” elements in the covariance matrix while staying silent about the relative importance of neighbors for each node, we go for the Network Guided Thresholding method.  Recall that in the original thresholding paper (\cite{bickel2008CovarianceRegularization}), their uniformity class of covariance matrices is given by
+\begin{equation*}
+    \mathcal{U}_{\tau}(q, c_{0} , M) = \Bqty{\Sigma: \sigma_{ii} \leq M, \sum_{j=1}^{N} \abs{\sigma_{ij}}^{q} \leq c_{0}(N), \mbox{ for all } i}.
+\end{equation*}
+\(q\) plays an important role. Suppose \(q = 0\), the number of non-zero elements needs to be bounded. On the other hand, when \(q \to 1\), the large elements of \(\Sigma_{\cdot}\) will dominate, and thus the sum of large elements needs to be bounded. We consider an extension to their uniformity class.  We first define the Location Indicator Matrix
+\begin{equation}
+    L = [L_{ij}]_{N\times N} = [ I(\abs{\sigma_{ij}} > l)]_{N\times N}
+    \label{L aux_set}
+\end{equation}
+For $s\in \{0, 1\}$, $L_{ij}^s = I(L_{ij}=s)$. Thus $L^1$ indicates the location of large elements in the covariance matrix, and $L^0$ indicates the location of small elements (not necessarily zero) in the covariance matrix. It is obvious that $L^1=L$ and $L^0=J_{N,N}-L^1$, where $J_{N,N}$ is an unit matrix. We use auxiliary information to estimate $L$ and thus $L^s$ for $s\in \{0, 1\}$. We then consider the following uniformity class:
+\begin{align*}
+    \mathcal{U}_1 (q, c_{0}, c_{1}, M, L) = \Bqty{\Sigma : \sigma_{ii} \leq M, \sum_{j} L_{ij}^{1} \leq c_{1}, \sum_{j} L_{ij}^{0}\abs{\sigma_{ij}}^{q} \leq c_{0} \mbox{ for all } i},
+\end{align*}
+where we separately state the conditions for large elements ($(i,j)$ pairs such that $L_{ij}^{1}=1$) and small elements ($(i,j)$ pairs such that $L_{ij}^{0}=1$). Essentially, this uniformity class controls the number of large elements and the growth rate of the remaining small elements. Compared with the uniformity class of covariance matrices considered in \cite{bickel2008CovarianceRegularization}, we extend the class of covariance matrices that satisfy the thresholding condition. 
+Consider a covariance matrix \(\Sigma\) that contains a small number of relatively large elements and a large number of small elements; such a covariance matrix does not satisfy the sparsity assumption from \cite{bickel2008CovarianceRegularization} while it still satisfies our sparsity condition. Thus our method can deal with more scenarios.
+
+Of course, a prior we don't know is the location of the large elements. Suppose we have observations from the auxiliary dataset that allow us to form an estimator $\hat{L}$ for $L$, independent of the sample \(X\). Here we define the Network Guided Thresholding Estimator to be 
+\begin{align*}
+    T_{L,\lambda}(\hat{\Sigma}) &= \bqty{s_{L, \lambda } (\hat{\sigma}_{ij})}_{N\times N}\\
+    s_{L,\lambda} \pqty{\sigma_{ij}} &= 
+    \begin{cases}
+        \sigma_{ij} &\qq{if} i = j \qq{or} L_{ij} = 1\\ 
+        s_{\lambda}(\sigma_{ij}) &\qq{otherwise} 
+    \end{cases}
+    \label{network thresholding estimator}
+\end{align*}
+where \(s_{\lambda}(x)\) is the generalized thresholding operator\footnote{Commonly used thresholding operators
+such as hard thresholding, soft thresholding, and SCAD can be applied.}. Then the feasible Network Guided Thresholding Estimator is $T_{\hat L, \lambda} (\hat \Sigma)$, where we use the estimated Location Indication Matrix.
+
+\subsection{Network Guided  Banding}{\label{framework2}}
+When the auxiliary information reveals the relative importance of neighbors for each node, we go for the Network Guided Banding method. 
+Recall that the original Banding and Tapering methods work only when there is a natural "order" or "distance" among variables, and they consider the following uniformity class of covariance matrices: 
+\begin{equation}
+	\mathcal{U_b}(\varepsilon, \alpha, c) = \Bqty{ \Sigma: \forall k, \max_j \sum_{i: \abs{i-j}>k} \abs{\sigma_{ij}} \leq c k^{-\alpha}, 
+    \mbox{ and } 0<\varepsilon \leq \lambda_{\min}(\Sigma) \leq \lambda_{\max} (\Sigma)  \leq 1/\varepsilon \ }.
+    \label{banding class}
+\end{equation}
+\cite{bickel2008covariance} shows that when the banding condition is satisfied, a better convergence rate can be achieved by taking advantage of the underlying structure. However, the original Banding and Tapering methods are only applicable to a small group of covariance matrices, as variables are not ordered in most cases. We extend their method by allowing a more general underlying connectivity (network) structure, making these methods applicable to a wider range of covariance matrices. We first define a new order $\langle \{ 1,\dots,N \} , >^* \rangle$ for a $N$-dimensional vector $\boldsymbol{a}=(a_1,\dots,a_N)^{\intercal}$ with distinct elements as follows:
+\begin{equation}
+	i >^* j \ \Leftrightarrow \
+        a_i > a_j 
+\end{equation}
+Given a vector of relative importance $\boldsymbol{a}=(a_1,\dots,a_N)^{\intercal}$, we can use this order operator to sort the elements from the vector. Then we use a descending (in terms of $>^*$) tuple $(p_1, \dots, p_N)$ to record the sorted result, where $p_1 >^* p_2 >^* \dots >^* p_N $. Notice that $(p_1, \dots, p_N)$ is a permutation of $(1, \dots, N)$, where $p_1$ gives the index of the largest element (most important) and $p_N$ gives the index of the smallest element (least important). For any positive integer $k$, define $S^a_k = \{ p_1,...,p_k\} $ as the set of indexes of the $k$-biggest elements under $>^*$ for vector $\boldsymbol{a}$. For example, if $\boldsymbol{a} = (1, 4, 3 , 2)$, then the sorted tuple is $(2, 3, 4, 1)$, $S^a_2 = \{2, 3\}$. Next, we generalize the uniformity class considered in \cite{bickel2008regularized} (\autoref{banding class}) by directly comparing the relative magnitudes (not a real "distance") of entries for each row of a matrix. We modify the correlation counterpart of \autoref{banding class} instead of itself for fair comparison under heteroskedasticity. To be precise, we consider a generalized uniformity class of covariance matrices: 
+\begin{equation}
+	\mathcal U_2(\varepsilon, \alpha, c_0, M) = 
+    	\Bqty{ \Sigma: \max_i \sigma_{ii} < M, 
+        \text{ and } D^{-1} \Sigma D^{-1} \in \mathcal R_2 (\varepsilon, \alpha, c_0) }
+	\label{cov class}
+\end{equation}
+where $\mathcal R_2$ is a class of correlation matrices,
+\begin{equation}
+	\mathcal R_2(\varepsilon, \alpha, c_0) = \Bqty{ R: \forall k, \forall i, \sum_{j \notin S^{abs(r_i)}_k} \ \abs{r_{ij}} < c_0 k^{-\alpha}, 
+    \mbox{ and } \lambda_{\max}(R) \leq 1/\varepsilon }   
+    \label{cor class}
+\end{equation}
+where $r_i$ is the $i$-th column (row) of $R$, and $abs(r_i)=(\mid r_{i1}\mid, \dots, \mid r_{iN}\mid)$ gives the absolute values of the correlation coefficients. $S^{abs(r_i)}_k$ gives the set of indexes of the $k$-biggest elements. Notice that when $k=1$, $S^{abs(r_i)}_k=\{i\}$ as the self-correlation is always the largest. When $k>1$, $S^{abs(r_i)}_k$ includes $i$ itself and the set of {$k-1$ nearest neighbours. Essentially, the correlations between non-neighboring pairs need to be small under \autoref{cor class}. Compared with the original banding, this method is permutation-invariant and accommodates a more general connectivity (network) structure.
+
+We use auxiliary information to infer the underlying connectivity structure of the target correlation matrix. Define a relative importance indicator matrix $C=[C_{ij}]_{N\times N}$ with non-negative elements. For each row $i$ (or column), the elements of $C_i=(C_{i1},\dots,C_{iN})$ give the relative importance scores and retain the order of importance from $abs(r_i)$ (i.e.,for each $i$, there exists a non-decreasing function $f_i$ such that $ C_{ij} = f_i(\abs{r_{ij}})$ for all $j$). Then we can reconstruct the correlation structure with a Network Guided Banding Estimator as follows
+\begin{align}
+    B_{C, k} (\hat\Sigma) &= \hat D B_{C, k} (\hat{R} ) \hat D \\ 
+    B_{C, k} (\hat{R} ) &= [ b_{C, k} (\hat{r}_{ij}) ]_{N\times N}\\
+    b_{C,k}(r_{ij}) &= 
+    \begin{cases}
+        r_{ij} &\qq{if} i \in S_k^{c_j} \qq{and} j \in S_k^{c_i} \\
+        0 &\qq{otherwise}.
+    \end{cases}
+    \label{network banding estimator}
+\end{align}
+We do not observe the relative importance indicator matrix $C$, and we use the auxiliary dataset to form an estimator $\hat C$, and the feasible estimator is $B_{\hat C, k}(\hat\Sigma)$. 
+
+
+It's noteworthy that $B_{C, k}(\hat \Sigma)$ is not strictly a banding or tapering estimator because the $k$-neighbour relationship is asymmetric, i.e., $i \in S_k^{c_j} \not\Leftrightarrow j \in S_k^{c_i}$ for certain symmetric matrix $C$. For example, in a scale-free network, the central node is the neighbor of many nodes connected to it, but the reverse is not true.
+

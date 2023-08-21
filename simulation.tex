@@ -1,0 +1,71 @@
+\subsection{True Covariance Matrix}\label{true_cov}
+Similar to \cite{cai2011adaptive}, we consider two types of sparse covariance matrices in the simulations to investigate the numerical properties of our proposed estimators. 
+\begin{enumerate}
+    \item Model 1 (banded matrix with ordering). $\Sigma = \diag(A_1, A_2)$, where $A_1 = [a_{ij}]_{\frac{N}{2} \times \frac{N}{2}}$, $a_{ij} = (1-\frac{\abs{i-j}}{10})_+$, $A_2 = 4 I_{\frac{N}{2} \times \frac{N}{2}}$. $\Sigma$ is a two-block diagonal matrix, $A_1$ is a bandable sparse covariance matrix, and $A_2$ is the identity matrix multiplied by $4$.
+    \begin{figure}[H]
+        \centering
+\includegraphics[scale=0.75]{simulation_result/pic_model1.png}
+        \caption{Typical heatmap of Model 1 (banded matrix with ordering)}
+        \label{fig:model1}
+    \end{figure}
+    \item Model 2 (sparse matrix without ordering). $\Sigma = \diag(A_1, A_2)$, where $A_2 = 4 I_{\frac{N}{2} \times \frac{N}{2}}$, $A_1 = B + \epsilon I_{\frac{N}{2} \times \frac{N}{2}}$, $B = [b_{ij}]_{\frac{N}{2} \times \frac{N}{2}}$, whose elements independently follow:
+    \begin{equation}
+        b_{ij} = \begin{cases}
+            \text{Ber}(1, \frac{20}{N}) &\text{for}\hspace{2mm} i<j, \\
+            1 & \text{for}\hspace{2mm}i=j, \\
+            b_{ji} & \text{for}\hspace{2mm}i>j.
+        \end{cases}
+    \end{equation}
+     Here $\text{Ber}(1, p)$ is a Bernoulli random variable that takes value 1 with probability $p$ and value 0 with probability $1-p$, and $\epsilon = \max(-\lambda_{\min} (B), 0) + 0.01$ to ensure that $A_1$ is positive definite. 
+        \begin{figure}[H]
+        \centering
+\includegraphics[scale=0.75]{simulation_result/pic_model2.png}
+         \caption{Typical heatmap of Model 2 (sparse matrix without ordering)}
+        \label{fig:model2}
+    \end{figure}
+\end{enumerate}
+
+\subsection{Auxiliary Information}
+In the simulation, we directly generate the estimates of the Location Indicator Matrix $L$ and the Relative Importance Indicator Matrix $C$, i.e., $\hat L$ and $\hat C$. The qualities of these estimates are tuned by some hyper-parameters. Table \ref{param-hatL} and \ref{param-hatC} list the descriptions of these hyper-parameters and the ranges of values they can take.
+\begin{table}[htbp]
+     \centering
+     \begin{tabularx}{\textwidth}{c|X|c}
+          \toprule
+          Parameter & Description & Range \\ 
+          \midrule
+          \(l\) & Observation level, determines how we classify a pair \((i,j)\) as important, i.e., \(L_{ij} =1\). & 0.2 \\
+          \(p\) & Conditional on \(L_{ij} =1\), the probability of actually observing \(\hat{L}_{ij} =1\). & 0.5, 0.8, 1 \\
+          \(q\) & Conditional on \(L_{ij} = 0\), the probability of  observing \(\hat{L}_{ij} =1\). & 0, 0.1 \\
+          \bottomrule
+     \end{tabularx}
+     \caption{hyper-parameters for Network Guided Thresholding Estimator}
+     \label{param-hatL}
+\end{table}
+\vspace{10mm}
+\begin{table}[htbp]
+     \centering
+     \begin{tabularx}{\textwidth}{c|X|c}
+          \toprule
+          Parameter & Description & Range \\ 
+          \midrule
+          $\eta$ & Accuracy rate of the order,  guarantees $S^{c_i}_{\lceil \eta k \rceil} \subseteq S^{\hat{c}_i}_{k}$ for all $1 \le k \le N$, where $c_i$ is the $i$-th column of $C$ and $\hat{c}_i$ is the $i$-th column of $\hat C$. Details of the algorithm to generate $\hat C$ can be found in \autoref{algo}.  & 0.1, 0.5, 0.8, 1 \\
+          \bottomrule
+     \end{tabularx}
+     \caption{hyper-parameters for Network Guided Banding Estimator}
+     \label{param-hatC}
+\end{table}
+
+\subsection{Numerical Results}
+For each model described in \autoref{true_cov}, $T=100$ iid $N$-variate random vectors are generated from the normal distribution with mean 0 and covariance matrix $\Sigma$, for $N = 100, 300, 500$. For each setting of $(N, T, l, p, q)$ or $(N, T, \eta)$, 20 replications are used. We compare the numerical performance of the Network Guided Thresholding Estimator and the Network Guided Banding Estimator with a set of pure statistical methods including Sample Covariance Estimator, Soft Thresholding Estimator, Hard Thresholding Estimator, Linear Shrinkage Estimator, and Nonlinear Shrinkage Estimator. \autoref{res-model1} and \autoref{res-model2} list the numerical results under the Frobenius norm and the Matrix 2-norm. 
+
+When the true covariance matrix is a banded one with order (model 1), both Network Guided estimators outperform other competitors as long as the auxiliary network information is decent. For the Network Guided Thresholding Estimator, it outperforms the sample covariance estimator, the hard thresholding estimator, and the linear shrinkage estimator for all $(p,q, N,T)$ combinations. However, to beat the soft thresholding estimator and the nonlinear shrinkage estimator, we will need $p,q$ to be not too large. In particular, type I error $q$ hurts the performance of the Network Guided Thresholding Estimator more than type II error $(1-p)$. When $q=0$, even if the probability of making the type II error is as large as $50\%$, it still performs better than other pure statistical methods. When it comes to the Network Guided Banding Estimator, it has smaller norms than all other pure statistical methods as long as the accuracy rate parameter $\eta$ is not too small. When $\eta=0.5$, the Network Guided Banding Estimator outperforms for most of the $(N,T)$ combinations. Given similar information quality, the Network Guided Banding Estimator performs better than the Network Guided Banding Estimator, which is consistent with the theory. We do not aim to compare the performances of the two Network Guided estimators as this is not a fair competition (the Network Guided Banding Estimator requires the auxiliary information to reveal the relative importance of neighbors for each node for this method to be applicable).
+
+When the true covariance matrix is a sparse matrix without order (model 2), both Network Guided estimators again outperform other competitors when the auxiliary network information is decent. Now that our Network Guided Banding Estimator is applicable to a wider range of "bandable" matrix, it can be successfully applied under the setting of model 2. And it maintains its excellent performance given that the accuracy rate parameter $\eta$ is not too small. When $\eta=0.5$, the Network Guided Banding Estimator outperforms others for all the $(N,T)$ combinations. Even when $\eta=0.1$, its performance is still decent under this model setting. Similar to the previous setting, the Network Guided Thresholding Estimator as we are not making too much Type I error.  In summary, our simulation exercise shows the excellent numerical properties of the proposed Network Guided estimators. They both outperform other competitors as long as the auxiliary network information is decent. The performance of the Network Guided Thresholding Estimator is more sensitive to type I error than type II error. The Network Guided Banding Estimator, on the other hand, is not too sensitive to the accuracy rate parameter $\eta$, and it has excellent performance as long as $\eta$ is not too small.
+
+\begin{landscape}
+    % \resizebox{!}{0.45\textheight}{
+        \input{simulation_result/Cai2011Adaptive_Model1_processed}
+        \input{simulation_result/Cai2011Adaptive_Model2_my_processed}
+    % }
+\end{landscape}
+

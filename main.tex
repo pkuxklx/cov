@@ -1,0 +1,108 @@
+\documentclass[a4paper]{article}
+\usepackage[english]{babel} % ???????????
+\usepackage[margin=20mm]{geometry}
+\renewcommand{\baselinestretch}{1.5} 
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{physics}
+\usepackage{stackengine}
+\usepackage{array, makecell} 
+\usepackage[dvips]{hyperref} 
+\usepackage{lscape}
+\usepackage[toc,page]{appendix}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{thm-autoref}
+\usepackage{placeins}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{lipsum}
+\usepackage{authblk}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{subfig,subcaption,siunitx,booktabs}
+\usepackage{tabularx,siunitx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[linesnumbered, ruled, vlined]{algorithm2e}
+\usepackage{lscape}
+\usepackage{amsthm} % ?????????
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}{Proposition}
+
+
+\newtheorem{cor}{Corollary}[thm]
+\newtheorem{defn}{Definition}
+\newtheorem{conj}{Conjecture}
+\newtheorem{con}{Condition}
+\newtheorem{exmp}{Example}
+\newtheorem{rem}{Remark}
+\newtheorem{note}{Note}
+\newtheorem{assu}{Assumption}
+
+\DeclareMathOperator{\diag}{diag}
+
+\crefname{lemma}{lemma}{lemma}
+\usepackage{verbatim}
+\usepackage{csquotes}
+\usepackage{natbib}
+\hypersetup{
+colorlinks,
+linktoc=all,
+linktocpage=true,
+citecolor=blue,
+breaklinks=true,
+filecolor=blue,
+linkcolor=red,
+urlcolor=blue,
+linktocpage=true
+}
+\providecommand{\keywords}[1]
+{
+\small
+\textbf{\textit{Keywords---}} #1
+}
+
+\sloppy 
+\begin{document}
+\title{Augment Large Covariance Matrix Estimation With Auxiliary Network Information \thanks{The authors would like to thank Xiaohong Chen, Hashem Pesaran, Cheng Hsiao, Harrison Zhou, Seok Young Hong, Jeroen Dalderop for their useful comments.}}
+    \author[]{Shuyi Ge\thanks{School of Finance, University of Nankai. Author email:sg751@cam.ac.uk}}
+    \author[]{Shaoran Li\thanks{School of Economics, Peking University. Author email:sl736@cam.ac.uk}}
+    \author[]{Oliver Linton\thanks{Faculty of Economics, University of Cambridge. Author email:obl20@cam.ac.uk}}
+    \author[]{Weiguang Liu\thanks{Faculty of Economics, University of Cambridge. Author email:wl342@cam.ac.uk}}
+    \author[]{Xiang Lu\thanks{School of Electronics Engineering and Computer Science, Peking University. Author email:1900012773@pku.edu.cn}}
+    \affil[]{}
+    \maketitle
+\begin{abstract}
+In this paper, we propose two novel frameworks to incorporate auxiliary information about connectivity among entities (i.e., network information) into the estimation of large covariance matrices. The current literature either completely ignores this kind of network information (e.g., thresholding and shrinkage) or utilizes some simple network structure under very restrictive settings (e.g., banding). In the era of big data, we can easily get access to auxiliary information about the complex connectivity structure among entities. Depending on the features of the auxiliary network information at hand and the structure of the covariance matrix, we provide two different frameworks correspondingly\textemdash the Network Guided Thresholding and the Network Guided Banding. We show that both Network Guided estimators have optimal convergence rates over a larger class of sparse covariance matrix. Simulation studies demonstrate that they generally outperform other pure statistical methods, especially when the true covariance matrix is sparse, and the auxiliary network contains genuine information. Empirically, we apply our method to the estimation of the covariance matrix of asset returns to attain the global minimum variance (GMV) portfolio.  
+\bigskip
+
+Keywords: Big data; network; large covariance matrix; thresholding; banding.
+
+JEL Classification: 
+\end{abstract} \hspace{10pt}
+\pagebreak
+\normalsize
+\section{Introduction}
+\input{intro}
+\section{Model Setup}
+\input{model}
+\section{Main Results}
+\input{result}
+\section{Simulation}
+\input{simulation}
+\section{Empirical Application (preliminary)}
+\input{empirical}
+\section{Conclusion}
+\input{conlcusion}
+\bibliographystyle{abbrvnat.bst}
+\bibliography{ref}
+
+\begin{appendices}
+% \section{Appendix}
+\input{appendix}
+\end{appendices}
+
+\end{document}

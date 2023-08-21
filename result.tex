@@ -1,0 +1,109 @@
+We first lay down our assumptions, and then we provide the asymptotic results for our proposed estimators.
+\subsection{Assumptions}
+We make the following assumptions:
+\begin{assu}
+    \( \max_{i,j} \abs{\hat{\sigma}_{ij} - \sigma_{ij}} = O_{p}(\sqrt{\log N / T}) \). 
+    \label{Gaussian asmp}
+\end{assu}
+\begin{assu}
+	$\max_{i,j} \abs{ \hat{r}_{ij} - r_{ij} } = O_P(\sqrt{ \log N / T })$.
+    \label{Gaussian asmp cor}
+\end{assu}
+\begin{assu}
+    \( \max_{i,j} \abs{\hat{L}_{ij} - L_{ij}} = O_{p}(k_{T})\) where \(k_{T} \to 0\) as \(T \to \infty\).
+    \label{asmp:framework1}
+\end{assu}
+\begin{assu}
+    Represent the proxy correlation matrix as columns. $C=(c_1, \dots , c_N)$ and $\hat C = (\hat{c}_1, \dots, \hat{c}_N)$. Then
+    \iffalse
+    \begin{equation*}
+        \exists \eta \in (0, 1], \forall i, \forall k, \lim_{T\to\infty} \Pr \{  S_{\eta k}^{c_i} \subseteq S_k^{ \hat{c}_i}  \} = 1.
+    \end{equation*}
+    \fi
+    \begin{equation*}
+        \exists \eta \in (0, 1], \forall i, \Pr \{ S^{c_i}_{\lceil \eta k \rceil} \subseteq S^{ \hat{c}_i}_k \} > 1 - f(T, k),
+    \end{equation*}
+    where $f(T, k)$ uniformly converge to $0$ for $k \in \{1, \dots, N\}$ when $T \to \infty$ and $\frac{\log N}{T} \to 0$.
+    \label{asmp:framework2}
+\end{assu}
+\vspace{5mm}
+Remarks: 
+\begin{enumerate}
+    \item Assumption \autoref{Gaussian asmp} and \autoref{Gaussian asmp cor} can be verified in various settings, for example, when \(F\) is Gaussian or sub-Gaussian (\cite{cai2011adaptive}). We can even replace the independence assumption and allow for temporal dependence (see Lemma A.2 in \cite{shu2019EstimationLarge}). 
+    
+    \item The location indication matrix $L$ is estimated using auxiliary data sets over the same time period of length $T$ as $\{\boldsymbol{X}_{t})\}_{t=1}^T$. Assumption \autoref{asmp:framework1} requires that for each \((i,j)\) pair, \(L_{ij}\) can be estimated consistently\footnote{Given that the estimation of \(\hat{L}_{ij}\) is independent of the sample \(\{\boldsymbol{X}_{t})\}_{t=1}^T\), then perhaps we can find a less restrictive condition for the result to hold.}.  In addition, our simulation results show that as long as we don't make too much type I error: \(\hat{L}_{ij} = 1\) when \(L_{ij} = 0\), using the auxiliary information still improves the performance.  
+    
+    \item The relative importance indicator matrix $C$ matrix is assumed to be estimated using auxiliary data sets over the same time period of length $T$ as $\{\boldsymbol{X}_{t})\}_{t=1}^T$. Assumption \autoref{asmp:framework2} requires that there exists a positive proportion $\eta \in (0, 1]$ such that the $\lceil \eta k \rceil$-biggest elements need to be identified using the auxiliary information as $T$ goes large for any integer $k$. This assumption can be justified in a number of settings. For example, if $\hat{C}_{ij}(t)$ is a Poisson process with parameter $c_{ij}$, then $\mathbf{E} [\hat{C}_{ij}(t)] = c_{ij}t$. By the law of large numbers, the order within $C$ can be recovered from $\hat C$ for sufficiently large $T$.
+\end{enumerate}
+
+\subsection{Asymptotic results}
+\begin{thm}
+    Suppose Assumption \autoref{Gaussian asmp} and Assumption \autoref{asmp:framework1} are satisfied. For sufficiently large \(M'\), 
+    \begin{equation*}
+        \lambda = M' \sqrt{\frac{\log N}{T}}
+    \end{equation*}
+    and \(\frac{\log N}{T} \to 0\) as \(T \to \infty\), 
+    then uniformly on $\mathcal{U}_1 (q, c_{0}, c_{1}, M, L)$ 
+    \begin{equation*}
+    \norm{T_{\hat{L},\lambda}\pqty{\hat{\Sigma}} - \Sigma } = O_{p}\pqty{c_{1}(N) \sqrt{\frac{\log N}{T}}+c_{0}(N)\pqty{\frac{\log N}{T}}^{\frac{1-q}{2}}}.
+    \end{equation*}
+    \label{theorem1}
+\end{thm}
+
+\begin{thm}
+    Suppose Assumption \autoref{Gaussian asmp}, Assumption \autoref{Gaussian asmp cor}, and Assumption \ref{asmp:framework2} are satisfied. If a positive integer $k$ satisfies
+    \begin{equation} 
+    	k \asymp c_0(N)^\frac{1}{\alpha+1}  \pqty{ \frac{\log N}{T} }^\frac{-1}{2(\alpha+1)}  
+    	\label{k_NT}
+    \end{equation}
+    and $\frac{\log N}{T} \to 0$ as $T \to \infty$, then uniformly on $\mathcal R_2(\varepsilon, \alpha, c_0)$ 
+    \begin{equation}
+        \norm{ B_{\hat C, k} (\hat R) - R} = 
+        O_P \pqty{ 
+        c_0(N)^{\frac{1}{\alpha+1}}
+        \pqty{\frac{\log N}{T}}^\frac{\alpha}{2(\alpha+1)}  
+        }
+        \label{theorem2_R_rate}
+    \end{equation}
+    and uniformly on $\mathcal U_2(\varepsilon, \alpha, c_0, M)$ 
+    \begin{equation}
+        \norm{ B_{\hat C, k} (\hat \Sigma) - \Sigma} = 
+        O_P \pqty{ 
+        c_0(N)^{\frac{1}{\alpha+1}}
+        \pqty{\frac{\log N}{T}}^\frac{\alpha}{2(\alpha+1)}  
+        }.
+        \label{theorem2_S_rate}
+    \end{equation}
+    \label{theorem2}
+\end{thm}
+
+\begin{thm}
+    Suppose Assumption \autoref{Gaussian asmp}, Assumption \autoref{Gaussian asmp cor}, and Assumption \ref{asmp:framework2} are satisfied. Then uniformly on $\mathcal R_2(\varepsilon, \alpha, c_0)$ 
+    \begin{equation}
+        \frac{1}{N} \norm{B_{\hat C, k} (\hat R) - R}_F^2 = 
+        O_P \pqty{ 
+        c_0(N)^{\frac{1}{\alpha+1}}
+        \pqty{\frac{\log N}{T}}^\frac{2\alpha+1}{2(\alpha+1)}  
+        }
+        \label{theorem3_R_rate}
+    \end{equation}
+    and uniformly on $\mathcal U_2(\varepsilon, \alpha, c_0, M)$ 
+    \begin{equation}
+        \frac{1}{N} \norm{ B_{\hat C, k} (\hat \Sigma) - \Sigma}_F^2 = 
+        O_P \pqty{ 
+        c_0(N)^{\frac{1}{\alpha+1}}
+        \pqty{\frac{\log N}{T}}^\frac{2\alpha+1}{2(\alpha+1)}  
+        }.
+        \label{theorem3_S_rate}
+    \end{equation}
+    \label{theorem3}
+\end{thm}
+
+Proofs of the theorems can be found in the Appendix. Below we provide several remarks:
+\begin{enumerate}
+    \item For Network Guided Thresholding, we consider a uniformity class that states conditions for large and small elements separately. Therefore, the $c_0(N)$ and $c_1(N)$ from Theorem \autoref{theorem1} are at least asymptotically no larger than the $c_0(N)$ in \cite{bickel2008covariance}, possibly smaller.  
+    
+    \item The convergence rates in Theorem \autoref{theorem2} and Theorem \autoref{theorem3} are optimal over a larger class of "bandable" covariance matrix. 
+    
+    \item \cite{bickel2008covariance} shows that the banding estimator performs poorly on a permuted ordering but outperforms the thresholding estimator on a correct one. However, the Network Guided Banding estimator is permutation-invariant, and the numerical simulation shows that with a reasonable accuracy rate $\eta$, it also performs better than the thresholding estimator in many circumstances. 
+\end{enumerate}
