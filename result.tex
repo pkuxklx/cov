@@ -42,6 +42,7 @@ Remarks:
 \end{enumerate}
 
 \subsection{Asymptotic results (with factor)}
+\subsubsection{couterpart of section 2 \label{fan2011pca section 2}}
 Notation: 
 
 the Network Guided Thresholding Estimator of residuals, $\hat \Sigma_{u,\hat L}^T$.
@@ -49,7 +50,7 @@ the Network Guided Thresholding Estimator of residuals, $\hat \Sigma_{u,\hat L}^
 \begin{thm}
     The counterpart of \cite{fanHighDimensionalCovarianceMatrix2011}'s Theorem 2.1 in our paper:
 
-Suppose $\gamma < 1$ and $(\log p)^{6/\gamma - 1} = o(T)$. Then under assumption 2.1 and 2.2 in \cite{fanHighDimensionalCovarianceMatrix2011}, and assumption 3 in our paper, there exists positeve $C_1, C_2$, s.t. with $\lambda = C_1 (\sqrt{\frac{\log p}{T}} + a_T)$, 
+Suppose $\gamma < 1$ and $(\log p)^{6/\gamma - 1} = o(T)$. Then under assumption 2.1 and 2.2 in \cite{fanHighDimensionalCovarianceMatrix2011}, and assumption 3 in our paper, there exists positeve $C_1, C_2$, s.t. with $\lambda = C_1 (\sqrt{\frac{\log p}{T}} + a_T)$ and $b_T = \sqrt{\frac{\log p}{T}} + a_T$, 
 $$ P( \| \hat \Sigma_{u,\hat L}^T - \Sigma_u \| < C_2( c_0 b_T^{1-q} + c_1 b_T ) ) > 1 - O(1/p^2 + k_1 (p,T)) $$
 Also, if $c_0 b_T^{1-q} + c_1 b_T = o(1)$, then with probability at least $1 - O(1/p^2 + k_1 (p,T))$, $$\lambda_{\min} (\hat \Sigma_{u,\hat L}^T) > 0.5 \lambda_{\min} (\Sigma_u)$$ and $$\| (\hat \Sigma_{u,\hat L}^T)^{-1} - \Sigma_u^{-1} \| < C_2 (c_0 b_T^{1-q} + c_1 b_T) $$.
 \end{thm}
@@ -60,7 +61,27 @@ the Network Guided Banding Estimator, $\hat \Sigma_{u,\hat C}^T$
 \begin{thm}
     Suppose $\gamma < 1$ and $(\log p)^{6/\gamma - 1} = o(T)$. Then under assumption 2.1 and 2.2 in \cite{fanHighDimensionalCovarianceMatrix2011}, and assumption 4 in our paper, there exists positeve $C_1, C_2$, s.t. a positive integer $k = \lfloor C_1 c_0(N)^\frac{1}{\alpha+1}  ( \sqrt{\frac{\log N}{T}} + a_T )^\frac{-1}{(\alpha+1)} \rfloor$, 
 $$ P( \| \hat \Sigma_{u,\hat C}^T - \Sigma_u \| < C_2( c_0(N)^\frac{1}{\alpha+1}  ( \sqrt{\frac{\log N}{T}} + a_T )^\frac{\alpha}{(\alpha+1)} ) ) > 1 - O(1/p^2 + k_1 (p,T)) $$
-Also, if $c_0(N)^\frac{1}{\alpha+1}  ( \sqrt{\frac{\log N}{T}} + a_T )^\frac{\alpha}{(\alpha+1)} = o(1)$, then with probability at least $1 - O(1/p^2 + k_1 (p,T))$, $$\lambda_{\min} (\hat \Sigma_{u,\hat L}^T) > 0.5 \lambda_{\min} (\Sigma_u)$$ and $$\| (\hat \Sigma_{u,\hat L}^T)^{-1} - \Sigma_u^{-1} \| < C_2 (c_0 b_T^{1-q} + c_1 b_T) $$.
+Also, if $c_0(N)^\frac{1}{\alpha+1}  ( \sqrt{\frac{\log N}{T}} + a_T )^\frac{\alpha}{(\alpha+1)} = o(1)$, then with probability at least $1 - O(1/p^2 + k_1 (p,T))$, $$\lambda_{\min} (\hat \Sigma_{u,\hat L}^T) > 0.5 \lambda_{\min} (\Sigma_u)$$ and $$\| (\hat \Sigma_{u,\hat L}^T)^{-1} - \Sigma_u^{-1} \| < C_2 c_0(N)^\frac{1}{\alpha+1}  ( \sqrt{\frac{\log N}{T}} + a_T )^\frac{\alpha}{(\alpha+1)} $$.
+\end{thm}
+
+
+\subsubsection{counterpart of section 3}
+According to Lemma 3.1 of \cite{fanHighDimensionalCovarianceMatrix2011}, $a_T = K\sqrt{\frac{\log p}{T}}$, and $k_1(p,T)=\frac{1}{p^2} + \frac{1}{T^2}$. Just by replacing them, we get more detailed version of theorems in section \ref{fan2011pca section 2}, which are counterparts of Theorem 3.1 in \cite{fanHighDimensionalCovarianceMatrix2011}. 
+
+Notation: the Network Guided Thresholding Estimator of the population covariance matrix (not residuals' covariance), $\hat \Sigma^T_{\hat L}$. Similarly, the Network Guided Banding Estimator, $\hat \Sigma^T_{\hat C}$.
+
+Further more, counterpart of Theorem 3.2:
+\begin{thm}
+    Suppose $\log T = o(p)$. Under the assumption of Theorem 3.1 and Assumption 3.5 in 
+    \cite{fanHighDimensionalCovarianceMatrix2011}, and Assumption 3 in our paper, we have:
+    \[ P(\| \hat \Sigma_{\hat L}^T - \Sigma \|_\Sigma^2 < \frac{CpK^2(\log p)^2}{T^2} + C[c_0 b_T^{1-q} + c_1 b_T]^2 ) = 1 - O(\frac{1}{p^2} + \frac{1}{T^2}) \]
+    \[ P( \| \hat \Sigma_{\hat L}^T - \Sigma \|_\max^2 < \frac{C K^2 \log p + C K^4 \log T}{T} ) = 1 - O(\frac{1}{p^2} + \frac{1}{T^2}) \]
+    , where $b_T = K\sqrt{\frac{\log p}{T}}$.
+
+     If $c_0 b_T^{1-q} + c_1 b_T = o(1)$, then with probability at least $1 - O(1/p^2 + 1/T^2)$, 
+     \[ \lambda_\min (\hat \Sigma^T_{\hat L}) > 0.5 \lambda_\min (\Sigma_u) \]
+     and
+     \[ \| (\hat \Sigma_{\hat L}^T)^{-1} - \Sigma^{-1} \| < c_0 b_T^{1-q} + c_1 b_T \]
 \end{thm}
 
 \subsection{Asymptotic results}
